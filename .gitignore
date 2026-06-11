@@ -1,1 +1,6 @@
 .DS_Store
+.vscode/
+.env
+
+# PHP exercise - ignore database files
+php/forcontu_php/employees_db/
