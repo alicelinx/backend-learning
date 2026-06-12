@@ -14,3 +14,10 @@ forcontu_pages.calculator:
     num2: 10
   requirements:
     _permission: 'access content'
+
+forcontu_pages.user:
+  path: '/forcontu/pages/user/{user}'
+  defaults:
+    _controller: '\Drupal\forcontu_pages\Controller\ForcontuPagesController::user'
+  requirements:
+    _permission: 'access content'

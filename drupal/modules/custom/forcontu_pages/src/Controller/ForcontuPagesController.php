@@ -9,6 +9,7 @@ namespace Drupal\forcontu_pages\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Drupal\user\UserInterface;
 
 class ForcontuPagesController extends ControllerBase {
   public function simple() {
@@ -57,6 +58,24 @@ class ForcontuPagesController extends ControllerBase {
       '#title' => $this->t('Operations:'),
     ];
     
+    return $output;
+  }
+
+  public function user(UserInterface $user) {
+    $list[] = $this->t('Username: @username',
+                        ['@username' => $user->getAccountName()]);
+    $list[] = $this->t('Email: @email',
+                        ['@email' => $user->getEmail()]);
+    $list[] = $this->t('Roles: @roles',
+                        ['@roles' => implode(", ", $user->getRoles())]);
+    $list[] = $this->t('Last accessed time: @lastaccess',
+                        ['@lastaccess' => \Drupal::service('date.formatter')->format($user->getLastAccessedTime(), 'short')]);
+
+    $output = [
+      '#theme' => 'item_list',
+      '#items' => $list,
+      '#title' => $this->t('User data:')
+    ];
     return $output;
   }
 }
