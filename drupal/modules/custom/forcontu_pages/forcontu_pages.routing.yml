@@ -21,3 +21,10 @@ forcontu_pages.user:
     _controller: '\Drupal\forcontu_pages\Controller\ForcontuPagesController::user'
   requirements:
     _permission: 'access content'
+
+forcontu_pages.node:
+  path: '/forcontu/pages/node/{node}'
+  defaults:
+    _controller: '\Drupal\forcontu_pages\Controller\ForcontuPagesController::node'
+  requirements:
+    _permission: 'access content'

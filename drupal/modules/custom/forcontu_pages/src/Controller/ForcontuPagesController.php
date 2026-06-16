@@ -10,6 +10,7 @@ namespace Drupal\forcontu_pages\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Drupal\user\UserInterface;
+use Drupal\node\NodeInterface;
 
 class ForcontuPagesController extends ControllerBase {
   public function simple() {
@@ -75,6 +76,22 @@ class ForcontuPagesController extends ControllerBase {
       '#theme' => 'item_list',
       '#items' => $list,
       '#title' => $this->t('User data:')
+    ];
+    return $output;
+  }
+
+  public function node(NodeInterface $node) {
+    $list[] = $this->t('Title: @title',
+                        ['@title' => $node->getTitle()]);
+    $list[] = $this->t('Type: @type',
+                        ['@type' => $node->getType()]);
+    $list[] = $this->t('Creation date: @createdate',
+                        ['@createdate' => \Drupal::service('date.formatter')->format($node->getCreatedTime(), 'short')]);
+
+    $output = [
+      '#theme' => 'item_list',
+      '#items' => $list,
+      '#title' => $this->t('Node data:')
     ];
     return $output;
   }
