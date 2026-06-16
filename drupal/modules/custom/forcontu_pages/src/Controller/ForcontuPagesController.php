@@ -11,6 +11,8 @@ use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Drupal\user\UserInterface;
 use Drupal\node\NodeInterface;
+use Drupal\Core\Url;
+use Drupal\Core\Link;
 
 class ForcontuPagesController extends ControllerBase {
   public function simple() {
@@ -92,6 +94,63 @@ class ForcontuPagesController extends ControllerBase {
       '#theme' => 'item_list',
       '#items' => $list,
       '#title' => $this->t('Node data:')
+    ];
+    return $output;
+  }
+
+  public function links() {
+    // link to /admin/structure/blocks
+    $url1 = Url::fromRoute('block.admin_display');
+    $link1 = Link::fromTextAndUrl($this->t('Go to the Block administration page'), $url1);
+
+    // link to /admin/content
+    $url2 = Url::fromRoute('system.admin_content');
+    $link2 = Link::fromTextAndUrl($this->t('Go to the Content administration page'), $url2);
+
+    // link to /admin/people
+    $url3 = Url::fromRoute('entity.user.collection');
+    $link3 = Link::fromTextAndUrl($this->t('Go to the User administration page'), $url3);
+
+    // link to the front page of the site
+    $url4 = Url::fromRoute('<front>');
+    $link4 = Link::fromTextAndUrl($this->t('Go to Front page'), $url4);
+
+    // link to /node/1
+    $url5 = Url::fromRoute('entity.node.canonical', ['node' => 1]);
+    $link5 = Link::fromTextAndUrl($this->t('Link to node/1'), $url5);
+
+    // link to /node/1/edit
+    $url6 = Url::fromRoute('entity.node.edit_form', ['node' => 1]);
+    $link6 = Link::fromTextAndUrl($this->t('Link to node/1/edit'), $url6);
+
+    // link to external www.forcontu.com, open in new window
+    $url7 = Url::fromUri('https://www.forcontu.com');
+    $link_options = [
+      'attributes' => [
+        'class' => [
+          'external-link',
+          'list',
+        ],
+        'target' => '_blank',
+        'title' => 'Go to www.forcontu.com',
+      ]
+    ];
+    $url7->setOptions($link_options);
+    $link7 = Link::fromTextAndUrl($this->t('Link to www.forcontu.com'), $url7);
+
+    $list[] = $link1;
+    $list[] = $link2;
+    $list[] = $link3;
+    $list[] = $link4;
+    $list[] = $link5;
+    $list[] = $link6;
+    $list[] = $link7;
+
+
+    $output = [
+      '#theme' => 'item_list',
+      '#items' => $list,
+      '#title' => $this->t('Examples of links:')
     ];
     return $output;
   }
