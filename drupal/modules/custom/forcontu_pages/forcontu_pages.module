@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * @file
+ * Forcontu Pages module file.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_help().
+ */
+function forcontu_pages_help($route_name, RouteMatchInterface $route_match) {
+  $output = '';
+  // On all node creation pages
+  if ($route_name === 'node.add') {
+    $output .= '<p>' . t('Text A. This text is shown in every node creation and editing pages.') . '</p>';
+  }
+    
+  // On all node edit pages
+  if ($route_name === 'entity.node.edit_form') {
+    $node = $route_match->getParameter('node');
+    $output .= '<p>' . t('Text A. This text is shown in every node creation and editing pages.') . '</p>';
+
+    // On edit pages for nodes of type 'page'
+    if ($node->getType() === 'page') {
+      $output .= '<p>' . t('Text B. This text is shown only in editing pages of nodes type "page".') . '</p>';
+    }
+      
+    $output .= '<p>Title: ' . $node->getTitle() . '</p>';
+    $output .= '<p>Type: ' . $node->getType() . '</p>';
+    $output .= '<p>Node ID: ' . $node->id() . '</p>';
+  }
+  
+  if ($route_name === 'entity.user.canonical') {
+    $user = $route_match->getParameter('user');
+    // Only on the profile page of user id = 1
+    if ($user->id() === '1') {
+      $output .= '<p>' . t('Text D. This text is shown only in profile page of the user with id 1.') . '</p>';
+      $output .= '<p>User name: ' . $user->getAccountName() . '</p>';
+      $output .= '<p>User ID: ' . $user->id() . '</p>';
+    } else {
+      // On all user profile pages
+      $output .= '<p>' . t('Text C. This text is shown only in user profile pages.') . '</p>';
+      $output .= '<p>User name: ' . $user->getAccountName() . '</p>';
+      $output .= '<p>User ID: ' . $user->id() . '</p>';
+    }
+  }
+      
+  return $output;
+}
