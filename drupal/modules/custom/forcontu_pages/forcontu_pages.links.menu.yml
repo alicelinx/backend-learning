@@ -52,3 +52,17 @@ forcontu_pages.node:
     node: 1
   parent: forcontu_pages.admin_forcontu_pages
   weight: 5
+
+forcontu_pages.tabs:
+  title: 'Tabs'
+  description: 'Tabs'
+  route_name: forcontu_pages.tab1
+  parent: forcontu_pages.admin_forcontu_pages
+  weight: 6
+
+forcontu_pages.extratab:
+  title: 'Extra tab'
+  description: 'Estra tab'
+  route_name: forcontu_pages.extratab
+  parent: forcontu_pages.admin_forcontu_pages
+  weight: 7
