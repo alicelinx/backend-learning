@@ -93,3 +93,17 @@ forcontu_pages.extratab:
     _controller: '\Drupal\forcontu_pages\Controller\ForcontuPagesController::extratab'
   requirements:
     _permission: 'access content'
+
+forcontu_pages.action1:
+  path: '/forcontu/pages/action1'
+  defaults:
+    _controller: '\Drupal\forcontu_pages\Controller\ForcontuPagesController::action1'
+  requirements:
+    _permission: 'access content'
+
+forcontu_pages.action2:
+  path: '/forcontu/pages/action2'
+  defaults:
+    _controller: '\Drupal\forcontu_pages\Controller\ForcontuPagesController::action2'
+  requirements:
+    _permission: 'access content'

@@ -191,5 +191,17 @@ class ForcontuPagesController extends ControllerBase {
     ];
   }
 
+  public function action1() {
+    return [
+      '#markup' => '<p>' . $this->t('This is the content of action1') . '</p>',
+    ];
+  }
+
+  public function action2() {
+    return [
+      '#markup' => '<p>' . $this->t('This is the content of action2') . '</p>',
+    ];
+  }
+
   
 }
