@@ -6,7 +6,6 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\user\UserInterface;
 
 /**
  * Implements hook_help().
@@ -49,4 +48,12 @@ function forcontu_pages_help($route_name, RouteMatchInterface $route_match) {
   }
       
   return $output;
+}
+
+/**
+ * Implements hook_toolbar_alter().
+ */
+function forcontu_pages_toolbar_alter(&$items) {
+  $items['administration']['#attached']['library'][] =
+    'forcontu_pages/forcontu_pages.css';
 }
