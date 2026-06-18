@@ -13,14 +13,14 @@ forcontu_pages.calculator:
     num1: 20
     num2: 10
   requirements:
-    _permission: 'access content'
+    _permission: 'access calculator'
 
 forcontu_pages.user:
   path: '/forcontu/pages/user/{user}'
   defaults:
     _controller: '\Drupal\forcontu_pages\Controller\ForcontuPagesController::user'
   requirements:
-    _permission: 'access content'
+    _permission: 'access user page'
 
 forcontu_pages.node:
   path: '/forcontu/pages/node/{node}'
@@ -34,7 +34,7 @@ forcontu_pages.links:
   defaults:
     _controller: '\Drupal\forcontu_pages\Controller\ForcontuPagesController::links'
   requirements:
-    _permission: 'access content'
+    _access: 'TRUE'
 
 forcontu_pages.admin_forcontu:
   path: '/admin/forcontu'
@@ -64,7 +64,7 @@ forcontu_pages.tab2:
   defaults:
     _controller: '\Drupal\forcontu_pages\Controller\ForcontuPagesController::tab2'
   requirements:
-    _permission: 'access content'
+    _permission: 'access tab2 page'
 
 forcontu_pages.tab3:
   path: '/forcontu/pages/tabs/tab3'
