@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the forcontu_config module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function forcontu_config_install() {
+  // Get last cron run time
+  $cron_last = \Drupal::state()->get('system.cron_last');
+
+  // Current time
+  $current_time = \Drupal::time()->getRequestTime();
+
+  if ($current_time - $cron_last > 300) {
+    $start = microtime(true);
+
+    // Run cron
+    \Drupal::service('cron')->run();
+
+    $end = microtime(true);
+    $duration = $end - $start;
+
+    // Save state
+    \Drupal::state()->set('forcontu_config.cron_duration', $duration);
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function forcontu_config_uninstall() {
+  \Drupal::state()->delete('forcontu_config.cron_duration');
+}
