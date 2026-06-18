@@ -13,6 +13,9 @@ use Drupal\user\UserInterface;
 use Drupal\node\NodeInterface;
 use Drupal\Core\Url;
 use Drupal\Core\Link;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Datetime\DateFormatter;
 
 class ForcontuPagesController extends ControllerBase {
   public function simple() {
@@ -156,8 +159,14 @@ class ForcontuPagesController extends ControllerBase {
   }
 
   public function tab1() {
+    $output = '<p>' . $this->t('This is the content of Tab 1') . '</p>';
+
+    if ($this->currentUser->hasPermission('administer nodes')) {
+      $output .= '</p>' . $this->t('This extra text is only displayed if the current user can administer nodes.') . '</p>';
+    }
+
     return [
-      '#markup' => '<p>' . $this->t('This is the content of Tab 1') . '</p>',
+      '#markup' => $output,
     ];
   }
 
@@ -168,8 +177,15 @@ class ForcontuPagesController extends ControllerBase {
   }
 
   public function tab3() {
+    $current_time = \Drupal::time()->getRequestTime();
+    $formatted_date = $this->dateFormatter->format(
+      $current_time,
+      'custom',
+      'Y:m:d'
+    );
     return [
-      '#markup' => '<p>' . $this->t('This is the content of Tab 3') . '</p>',
+      '#markup' => '<p>' . $this->t(
+        'This is the content of Tab 3<br>Current date: @date', ['@date' => $formatted_date]) . '</p>',
     ];
   }
 
@@ -203,5 +219,21 @@ class ForcontuPagesController extends ControllerBase {
     ];
   }
 
+  // Injects 'current_user' & 'date.formatter' service
+  protected $currentUser;
+  protected $dateFormatter;
+  public function __construct(AccountInterface $current_user, DateFormatter $date_formatter) {
+    $this->currentUser = $current_user;
+    $this->dateFormatter = $date_formatter;
+  }
   
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('current_user'),
+      $container->get('date.formatter')
+    );
+  }
+
+
+
 }
