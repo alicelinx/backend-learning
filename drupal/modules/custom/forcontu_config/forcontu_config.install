@@ -27,6 +27,12 @@ function forcontu_config_install() {
     // Save state
     \Drupal::state()->set('forcontu_config.cron_duration', $duration);
   }
+
+  // Disables the merge css files and merge savascript files (performance) options.
+  $performance_config = \Drupal::service('config.factory')->getEditable('system.performance');
+  $performance_config->set('css.preprocess', FALSE);
+  $performance_config->set('js.preprocess', FALSE);
+  $performance_config->save();
 }
 
 /**

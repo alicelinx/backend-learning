@@ -1,0 +1,11 @@
+forcontu_config.admin_forcontu:
+  title: 'Forcontu Config'
+  parent: forcontu_pages.admin_forcontu
+  route_name: forcontu_config.admin_forcontu
+  description: 'Activities from Forcontu Config module'
+
+forcontu_config.index:
+  title: 'Config page'
+  parent: forcontu_config.admin_forcontu
+  route_name: forcontu_config.index
+  description: 'Config page'
