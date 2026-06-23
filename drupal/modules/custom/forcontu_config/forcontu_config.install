@@ -33,6 +33,19 @@ function forcontu_config_install() {
   $performance_config->set('css.preprocess', FALSE);
   $performance_config->set('js.preprocess', FALSE);
   $performance_config->save();
+
+  // Assigns the values of variables newsletter.default_from_email, newletter.subject, and newsletter.country
+  $site_mail = \Drupal::config('system.site')->get('mail');
+  $site_name = \Drupal::config('system.site')->get('name');
+  $site_country = \Drupal::config('system.date')->get('country.default');
+
+  \Drupal::configFactory()->getEditable('forcontu_config.settings')
+    ->set('newsletter.default_from_email', $site_mail)
+    ->set('newsletter.subject', $site_name)
+    ->set('newsletter.country', $site_country)
+    ->set('newsletter.periodicity', 'monthly')
+    ->set('newsletter.news_number', 5)
+    ->save();
 }
 
 /**

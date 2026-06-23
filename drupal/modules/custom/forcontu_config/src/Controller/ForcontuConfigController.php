@@ -26,6 +26,15 @@ class ForcontuConfigController extends ControllerBase {
     $css = $performance_config->get('css.preprocess');
     $js = $performance_config->get('js.preprocess');
 
+    // newsletter
+    $newsletter_config = \Drupal::config('forcontu_config.settings');
+    $newsletter_subject = $newsletter_config->get('newsletter.subject');
+    $newsletter_default_from_email = $newsletter_config->get('newsletter.default_from_email');
+    $newsletter_active = $newsletter_config->get('newsletter.active');
+    $newsletter_periodicity = $newsletter_config->get('newsletter.periodicity');
+    $newsletter_news_number = $newsletter_config->get('newsletter.news_number');
+    $newsletter_country = $newsletter_config->get('newsletter.country');
+
     return [
       '#markup' => '
         <p>Site name: ' . $site_name . '</p>
@@ -36,6 +45,15 @@ class ForcontuConfigController extends ControllerBase {
         <br>
         <p>CSS aggregation: ' . ($css ? 'Enabled' : 'Disabled') . '</p>
         <p>JS aggregation: ' . ($js ? 'Enabled' : 'Disabled') . '</p>
+        <br>
+        <h4>Newsletter config</h4>
+        <p>Subject: ' . $newsletter_subject . '</p>
+        <p>Default from email: ' . $newsletter_default_from_email . '</p>
+        <p>Active: ' . ($newsletter_active ? 'Yes' : 'No') . '</p>
+        <p>Periodicity: ' . $newsletter_periodicity . '</p>
+        <p>News number: ' . $newsletter_news_number . '</p>
+        <p>Country: ' . $newsletter_country . '</p>
+        
       ',
     ];
   }
