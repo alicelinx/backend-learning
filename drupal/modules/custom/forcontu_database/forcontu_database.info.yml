@@ -1,0 +1,5 @@
+name: Forcontu Database
+type: module
+description: 'Creates custom database tables for Forcontu'
+package: Forcontu
+core_version_requirement: ^10

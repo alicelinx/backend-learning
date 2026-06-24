@@ -1,0 +1,84 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the forcontu_database module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+
+function forcontu_database_schema() {
+  $schema = [];
+
+  // Table - forcontu_database_example
+  $schema['forcontu_database_example'] = [
+    'description' => 'Example table for Forcontu database.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'uid' => [
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+      'status' => [
+        'type' => 'int',
+        'size' => 'small',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'title' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'type' => [
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+      ],
+      'ip' => [
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ],
+      'timestamp' => [
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  // Table - forcontu_database_counter
+  $schema['forcontu_database_counter'] = [
+    'description' => 'Counter table for tracking routes.',
+    'fields' => [
+      'route' => [
+        'type' => 'varchar',
+        'length' => 150,
+        'not null' => TRUE,
+      ],
+      'uid' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'user_count' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'lastcount' => [
+        'type' => 'int',
+        'not null' => FALSE,
+      ],
+    ],
+    'primary key' => ['route', 'uid'],
+  ];
+  return $schema;
+}
