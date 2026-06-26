@@ -106,6 +106,21 @@ function forcontu_database_install() {
   } else {
     \Drupal::messenger()->addMessage("Table 'comment' does not exist.");
   }
+
+  // Implements static query to read comments for current user.
+  $uid = \Drupal::currentUser()->id();
+  $result = \Drupal::database()->query(
+    'SELECT cid, entity_id, subject, uid 
+     FROM {comment_field_data} 
+     WHERE uid = :uid',
+    [':uid' => $uid]
+  );
+  // Loop through results and display with dpm().
+  foreach ($result as $record) {
+    dpm($record);
+    // To see the $record printed on console.
+    // \Drupal::logger('forcontu_database')->notice(print_r($record, TRUE));
+  }
 }
 
 /**
