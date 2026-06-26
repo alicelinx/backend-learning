@@ -82,3 +82,45 @@ function forcontu_database_schema() {
   ];
   return $schema;
 }
+
+/**
+ * Implements hook_install().
+ */
+
+function forcontu_database_install() {
+  $schema = \Drupal::database()->schema();
+
+  if ($schema->tableExists('comment')) {
+    
+    if (!$schema->fieldExists('comment', 'extra')) {
+      $field_definition = [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 1,
+      ];
+      $schema->addField('comment', 'extra', $field_definition);
+      \Drupal::messenger()->addMessage("Field 'extra' added to 'comment' table.");
+    } else {
+      \Drupal::messenger()->addMessage("Field 'extra' already exists in 'comment' table.");
+    }
+  } else {
+    \Drupal::messenger()->addMessage("Table 'comment' does not exist.");
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+
+function forcontu_database_uninstall() {
+  $schema = \Drupal::database()->schema();
+
+  if ($schema->tableExists('comment')) {
+    if ($schema->fieldExists('comment', 'extra')) {
+      $schema->dropField('comment', 'extra');
+      \Drupal::messenger()->addMessage("Field 'extra' removed from 'comment' table.");
+    } else {
+      \Drupal::messenger()->addMessage("Field 'extra' does not exist.");
+    }
+  } 
+}
