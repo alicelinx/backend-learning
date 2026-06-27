@@ -1,0 +1,11 @@
+forcontu_database.admin_forcontu_database:
+  title: 'Forcontu Database'
+  parent: forcontu_pages.admin_forcontu
+  route_name: forcontu_database.admin_forcontu_database
+  description: 'Activities from Forcontu Database module'
+
+forcontu_database.comment:
+  title: 'Comment page'
+  parent: forcontu_database.admin_forcontu_database
+  route_name: forcontu_database.comment
+  description: 'Comment page'
