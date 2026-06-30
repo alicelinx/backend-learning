@@ -29,27 +29,41 @@ class ForcontuDatabaseController extends ControllerBase {
   public function pageCount() {
     $route = \Drupal::service('path.current')->getPath();
     $uid = $this->currentUser->id();
-    $exists = $this->database->select('forcontu_database_counter', 'fdc')
-      ->fields('fdc', ['route'])
+    $results = $this->database->select('forcontu_database_counter', 'fdc')
+      ->fields('fdc', ['user_count'])
       ->condition('route', $route)
       ->condition('uid', $uid)
       ->execute()
-      ->fetchField();
+      ->fetchAssoc();
     
-    if (!$exists) {
+    if (!$results) {
+      $count = 1;
+
       $this->database->insert('forcontu_database_counter')
         ->fields([
           'route' => $route,
           'uid' => $uid,
-          'user_count' => 1,
+          'user_count' => $count,
           'lastcount' => time(),
         ])
         ->execute();
 
-      \Drupal::messenger()->addMessage(
-        $this->t('Page visited for the first time.')
-      );
+    } else {
+      $count = $results['user_count'] + 1;
+
+      $this->database->update('forcontu_database_counter')
+        ->fields([
+          'user_count' => $count,
+          'lastcount' => time(),
+        ])
+        ->condition('route', $route)
+        ->condition('uid', $uid)
+        ->execute();
     }
+
+    \Drupal::messenger()->addMessage(
+        $this->t('Page visited for @count time(s).', ['@count' => $count])
+      );
   }
 
   public function comment() {
