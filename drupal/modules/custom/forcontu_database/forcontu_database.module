@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Forcontu Database module file
+ */
+
+/**
+ * Implements hook_cron().
+ */ 
+function forcontu_database_cron() {
+  $deleted = \Drupal::database()->delete('forcontu_database_counter')
+    ->condition('user_count', 5, '>=')
+    ->execute();
+
+  \Drupal::logger('forcontu_database')->notice(
+    'Deleted @count records from counter table.',
+    ['@count' => $deleted]
+  );
+}
