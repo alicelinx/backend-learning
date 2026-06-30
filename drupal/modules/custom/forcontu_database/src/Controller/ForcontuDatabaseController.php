@@ -26,6 +26,32 @@ class ForcontuDatabaseController extends ControllerBase {
     );
   }
 
+  public function pageCount() {
+    $route = \Drupal::service('path.current')->getPath();
+    $uid = $this->currentUser->id();
+    $exists = $this->database->select('forcontu_database_counter', 'fdc')
+      ->fields('fdc', ['route'])
+      ->condition('route', $route)
+      ->condition('uid', $uid)
+      ->execute()
+      ->fetchField();
+    
+    if (!$exists) {
+      $this->database->insert('forcontu_database_counter')
+        ->fields([
+          'route' => $route,
+          'uid' => $uid,
+          'user_count' => 1,
+          'lastcount' => time(),
+        ])
+        ->execute();
+
+      \Drupal::messenger()->addMessage(
+        $this->t('Page visited for the first time.')
+      );
+    }
+  }
+
   public function comment() {
 
     $query = $this->database->select('comment_field_data', 'cfd')
@@ -62,7 +88,8 @@ class ForcontuDatabaseController extends ControllerBase {
       '#rows' => $rows,
     ];
 
+    $this->pageCount();
     return $build;
-
   }
+
 }
