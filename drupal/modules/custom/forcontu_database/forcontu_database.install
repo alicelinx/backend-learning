@@ -107,6 +107,13 @@ function forcontu_database_install() {
     \Drupal::messenger()->addMessage("Table 'comment' does not exist.");
   }
 
+  if ($schema->tableExists('comment') && $schema->fieldExists('comment', 'extra')) {
+    \Drupal::database()->query(
+      'UPDATE {comment}
+       SET extra = cid + 1'
+    );
+  }
+
   // Implements static query to read comments for current user.
   $uid = \Drupal::currentUser()->id();
   $result = \Drupal::database()->query(
