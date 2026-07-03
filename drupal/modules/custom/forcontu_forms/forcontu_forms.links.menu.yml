@@ -9,3 +9,9 @@ forcontu_forms.simple:
   description: 'Simple form'
   parent: forcontu_forms.admin_forcontu_forms
   route_name: forcontu_forms.simple
+
+forcontu_forms.resume:
+  title: 'Submit resume'
+  description: 'Submit resume'
+  parent: forcontu_forms.admin_forcontu_forms
+  route_name: forcontu_forms.resume

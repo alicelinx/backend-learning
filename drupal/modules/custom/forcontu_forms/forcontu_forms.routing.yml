@@ -13,3 +13,11 @@ forcontu_forms.admin_forcontu_forms:
     _title: 'Forcontu Forms Pages'
   requirements:
     _permission: 'access content'
+
+forcontu_forms.resume:
+  path: '/forcontu/forms/resume'
+  defaults:
+    _form: '\Drupal\forcontu_forms\Form\ResumeForm'
+    _title: 'Submit Resume'
+  requirements:
+    _permission: 'access content'
