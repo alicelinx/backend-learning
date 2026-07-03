@@ -67,10 +67,6 @@ class SimpleForm extends FormBase {
     return 'forcontu_forms_simple_form';
   }
 
-  public function submitForm(array &$form, FormStateInterface $form_state) {
-    
-  }
-
   public function validateForm(array &$form, FormStateInterface $form_state) {
     $title = $form_state->getValue('title');
     if (strlen($title) < 5 || strlen($title) > 30 || !ctype_upper($title[0])) {
@@ -82,10 +78,54 @@ class SimpleForm extends FormBase {
       $form_state->setErrorByName('user_email', $this->t('@email is not a valid email address.', ['@email' => $email]));
     }
 
-    $username = $form_state->getValue('username');
-    $currentUsername = $this->currentUser->getAccountName();
-    if ($username !== $currentUsername) {
-      $form_state->setErrorByName('username', $this->t('User name cannot be changed.'));
+    
+    if ($this->currentUser->isAuthenticated()) {
+      $username = $form_state->getValue('username');
+      $currentUsername = $this->currentUser->getAccountName();
+
+      if ($username !== $currentUsername) {
+        $form_state->setErrorByName('username', $this->t('User name cannot be changed.'));
+      }
+
+      $uid = $this->currentUser->id();
+
+      $exists = $this->database
+        ->select('forcontu_forms_simple', 'f')
+        ->fields('f', ['uid'])
+        ->condition('uid', $uid)
+        ->execute()
+        ->fetchField();
+      
+      if ($exists) {
+        $form_state->setErrorByName('username', $this->t('This user has already submitted the form.'));
+      }
     }
+  }
+
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    $this->database->insert('forcontu_forms_simple')
+      ->fields([
+        'title' => $form_state->getValue('title'),
+        'uid' => $this->currentUser->id(),
+        'username' => $form_state->getValue('username'),
+        'email' => $form_state->getValue('user_email'),
+        'ip' => \Drupal::request()->getClientIp(),
+        'timestamp' => \Drupal::time()->getRequestTime(),
+      ])
+      ->execute();
+    
+    $this->messenger()->addMessage($this->t('The form has been submitted successfully by @username',
+      [ 
+        '@username' => $form_state->getValue('username'),
+      ])
+    );
+    $this->logger('forcontu_forms')->notice('New Simple Form entry from user @username (uid: @uid) inserted: @title',
+      [
+        '@username' => $form_state->getValue('username'),
+        '@uid' => $this->currentUser->id(),
+        '@title' => $form_state->getValue('title'),
+      ]
+    );
+    $form_state->setRedirect('forcontu_pages.simple');
   }
 }
