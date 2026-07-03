@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Session\AccountInterface;
+use Egulias\EmailValidator\EmailValidator;
 
 /**
  * Implements the Simple form controller.
@@ -14,16 +15,19 @@ use Drupal\Core\Session\AccountInterface;
 class SimpleForm extends FormBase {
   protected $database;
   protected $currentUser;
+  protected $emailValidator;
 
-  public function __construct(Connection $database, AccountInterface $current_user) {
+  public function __construct(Connection $database, AccountInterface $current_user, EmailValidator $email_validator) {
     $this->database = $database;
     $this->currentUser = $current_user;
+    $this->emailValidator = $email_validator;
   }
 
   public static function create(ContainerInterface $container) {
     return new static (
       $container->get('database'),
-      $container->get('current_user')
+      $container->get('current_user'),
+      $container->get('email.validator')
     );
   }
 
@@ -31,22 +35,22 @@ class SimpleForm extends FormBase {
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#description' => $this->t('The title must be at least 5 characters long.'),
+      '#description' => $this->t('The title must be between 5 and 30 characters long and start with a capital letter.'),
       '#required' => TRUE,
     ];
 
-    $form['Username'] = [
+    $form['username'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Username'),
-      '#description' => $this->t('Your username'),
+      '#title' => $this->t('User name'),
+      '#description' => $this->t('Your user name.'),
       '#default_value' => $this->currentUser->getAccountName(),
       '#required' => TRUE,
     ];
 
-    $form['Email'] = [
+    $form['user_email'] = [
       '#type' => 'email',
-      '#title' => $this->t('Email'),
-      '#description' => $this->t('Your email'),
+      '#title' => $this->t('User email'),
+      '#description' => $this->t('Your email.'),
       '#default_value' => $this->currentUser->getEmail(),
       '#required' => TRUE,
     ];
@@ -67,4 +71,21 @@ class SimpleForm extends FormBase {
     
   }
 
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    $title = $form_state->getValue('title');
+    if (strlen($title) < 5 || strlen($title) > 30 || !ctype_upper($title[0])) {
+      $form_state->setErrorByName('title', $this->t('The title must be between 5 and 30 characters long and start with a capital letter.'));
+    }
+
+    $email = $form_state->getValue('user_email');
+    if (!$this->emailValidator->isValid($email)) {
+      $form_state->setErrorByName('user_email', $this->t('@email is not a valid email address.', ['@email' => $email]));
+    }
+
+    $username = $form_state->getValue('username');
+    $currentUsername = $this->currentUser->getAccountName();
+    if ($username !== $currentUsername) {
+      $form_state->setErrorByName('username', $this->t('User name cannot be changed.'));
+    }
+  }
 }
