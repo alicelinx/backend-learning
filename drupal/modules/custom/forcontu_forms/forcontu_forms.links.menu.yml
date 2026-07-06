@@ -15,3 +15,9 @@ forcontu_forms.resume:
   description: 'Submit resume'
   parent: forcontu_forms.admin_forcontu_forms
   route_name: forcontu_forms.resume
+
+forcontu_forms.settings:
+  title: Forcontu Forms Settings
+  route_name: forcontu_forms.settings
+  parent: system.admin_config_development
+  description: 'Configuration form example.'
