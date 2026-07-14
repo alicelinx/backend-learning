@@ -37,6 +37,7 @@ class SimpleForm extends FormBase {
       '#title' => $this->t('Title'),
       '#description' => $this->t('The title must be between 5 and 30 characters long and start with a capital letter.'),
       '#required' => TRUE,
+      '#element_validate' => ['::titleCustomValidation'],
     ];
 
     $form['username'] = [
@@ -68,11 +69,6 @@ class SimpleForm extends FormBase {
   }
 
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    $title = $form_state->getValue('title');
-    if (strlen($title) < 5 || strlen($title) > 30 || !ctype_upper($title[0])) {
-      $form_state->setErrorByName('title', $this->t('The title must be between 5 and 30 characters long and start with a capital letter.'));
-    }
-
     $email = $form_state->getValue('user_email');
     if (!$this->emailValidator->isValid($email)) {
       $form_state->setErrorByName('user_email', $this->t('@email is not a valid email address.', ['@email' => $email]));
@@ -99,6 +95,13 @@ class SimpleForm extends FormBase {
       if ($exists) {
         $form_state->setErrorByName('username', $this->t('This user has already submitted the form.'));
       }
+    }
+  }
+
+  public function titleCustomValidation($element, FormStateInterface $form_state) {
+    $title = $form_state->getValue('title');
+    if (strlen($title) < 5 || strlen($title) > 30 || !ctype_upper($title[0])) {
+      $form_state->setErrorByName('title', $this->t('The title must be between 5 and 30 characters long and start with a capital letter.'));
     }
   }
 
