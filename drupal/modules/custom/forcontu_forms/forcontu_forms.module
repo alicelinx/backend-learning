@@ -6,5 +6,19 @@
 function forcontu_forms_form_system_site_information_settings_alter(&$form, 
   \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
 
-    $form['site_information']['site_slogan']['#required'] = TRUE;
+  $form['site_information']['site_slogan']['#required'] = TRUE;
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for node_form.
+ */
+function forcontu_forms_form_node_form_alter(&$form,
+  \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+
+  $form['options']['#open'] = TRUE;
+  $form['options']['highlighted'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Highlighted'),
+    '#weight' => 100,
+  ];
 }
