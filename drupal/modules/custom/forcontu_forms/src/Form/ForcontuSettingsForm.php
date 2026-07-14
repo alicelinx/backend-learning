@@ -31,6 +31,13 @@ class ForcontuSettingsForm extends ConfigFormBase {
       '#required' => TRUE,
     ];
 
+    $form['forcontu_form_email'] = [
+      '#type' => 'email',
+      '#title' => $this->t('Email'),
+      '#default_value' => $config->get('email'),
+      '#required' => TRUE,
+    ];
+
     $form['forcontu_forms_message'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Message'),
@@ -43,6 +50,15 @@ class ForcontuSettingsForm extends ConfigFormBase {
   }
   
   public function validateForm (array &$form, FormStateInterface $form_state) {
+    $email = $form_state->getValue('forcontu_form_email');
+
+    if (!\Drupal::service('email.validator')->isValid($email)) {
+      $form_state->setErrorByName(
+        'forcontu_form_email',
+        $this->t('The email address is not valid.')
+      );
+    }
+
     return parent::validateForm($form, $form_state);
   }
 
@@ -52,6 +68,7 @@ class ForcontuSettingsForm extends ConfigFormBase {
     
     $this->config('forcontu_forms.settings')
       ->set('allowed_types', $allowed_types)
+      ->set('email', $form_state->getValue('forcontu_form_email'))
       ->set('message', $form_state->getValue('forcontu_forms_message'))
       ->save();
 
