@@ -15,10 +15,43 @@ function forcontu_forms_form_system_site_information_settings_alter(&$form,
 function forcontu_forms_form_node_form_alter(&$form,
   \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
 
+  $highlighted = 0;
+
+  if ($nid = $form_state->getFormObject()->getEntity()->id()) {
+    $connection = \Drupal::database();
+    $highlighted = $connection->select('forcontu_node_highlighted', 'f')
+      ->fields('f', ['highlighted'])
+      ->condition('f.nid', $nid)
+      ->execute()
+      ->fetchField();
+  }
+
   $form['options']['#open'] = TRUE;
   $form['options']['highlighted'] = [
     '#type' => 'checkbox',
     '#title' => t('Highlighted'),
     '#weight' => 100,
+    '#default_value' => $highlighted,
   ];
+
+  $form['actions']['submit']['#submit'][] =
+    'forcontu_forms_form_node_form_submit';
+}
+
+function forcontu_forms_form_node_form_submit(array &$form,
+  \Drupal\Core\Form\FormStateInterface $form_state) {
+    
+  $nid = $form_state->getFormObject()->getEntity()->id();
+  $highlighted = $form_state->getValue('highlighted');
+
+  $connection = \Drupal::database();
+
+  $upsert = $connection->upsert('forcontu_node_highlighted')
+    ->key('nid')
+    ->fields(['nid', 'highlighted'])
+    ->values([
+      'nid' => $nid,
+      'highlighted' => $highlighted,
+    ])
+    ->execute();
 }
