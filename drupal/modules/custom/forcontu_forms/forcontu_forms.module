@@ -32,6 +32,7 @@ function forcontu_forms_form_node_form_alter(&$form,
     '#title' => t('Highlighted'),
     '#weight' => 100,
     '#default_value' => $highlighted,
+    '#access' => \Drupal::currentUser()->hasPermission('forcontu form access'),
   ];
 
   $form['actions']['submit']['#submit'][] =
