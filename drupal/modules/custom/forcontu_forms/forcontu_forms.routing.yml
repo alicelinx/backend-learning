@@ -29,3 +29,11 @@ forcontu_forms.settings:
     _title: 'Forcontu Forms'
   requirements:
     _permission: 'forcontu form access'
+
+forcontu_forms.confirm:
+  path: '/forcontu/forms/confirm/{node}'
+  defaults:
+    _form: '\Drupal\forcontu_forms\Form\ForcontuConfirmForm'
+    _title: 'Confirm Form'
+  requirements:
+    _permission: 'forcontu form access'
