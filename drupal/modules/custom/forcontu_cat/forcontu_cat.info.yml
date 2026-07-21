@@ -1,0 +1,6 @@
+name: Forcontu CAT
+description: Form API
+package: Forcontu
+type: module
+core_version_requirement: ^10
+configure: forcontu_cat.settings

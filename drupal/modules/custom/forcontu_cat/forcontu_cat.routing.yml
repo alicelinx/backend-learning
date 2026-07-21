@@ -1,0 +1,7 @@
+forcontu_cat.settings:
+  path: '/admin/config/system/forcontu-cat'
+  defaults:
+    _form: '\Drupal\forcontu_cat\Form\ForcontuCatSettingsForm'
+    _title: 'Forcontu CAT'
+  requirements:
+    _permission: 'forcontu cat settings'

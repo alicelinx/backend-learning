@@ -1,0 +1,7 @@
+forcontu cat settings:
+  title: 'Forcontu CAT settings'
+  description: 'Access CAT configuration form'
+
+forcontu cat nodes:
+  title: 'Forcontu CAT nodes'
+  description: 'Access CAT nodes'

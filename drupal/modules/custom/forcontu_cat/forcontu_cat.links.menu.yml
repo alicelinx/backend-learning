@@ -1,0 +1,6 @@
+forcontu_cat.settings:
+  title: 'Forcontu CAT'
+  description: 'Forcontu CAT settings'
+  parent: system.admin_config_system
+  route_name: forcontu_cat.settings
+  weight: 100
