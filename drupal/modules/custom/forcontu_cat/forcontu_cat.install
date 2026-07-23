@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+
+function forcontu_cat_schema() {
+  $schema['forcontu_cat_messages'] = [
+    'description' => 'Stores node message enable status',
+    'fields' => [
+      'nid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Node ID',
+      ],
+      'checked' => [
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Checked status',
+      ],
+      'message' => [
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Custom message',
+      ],
+    ],
+    'primary key' => ['nid'],
+  ];
+  return $schema;
+}

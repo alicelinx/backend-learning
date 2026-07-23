@@ -12,6 +12,21 @@ function forcontu_cat_form_node_form_alter(&$form, FormStateInterface $form_stat
   $allowed_types = $config->get('allowed_types');
 
   $message_checked = 0;
+  $message = $config->get('message');
+
+  if ($nid = $form_state->getFormObject()->getEntity()->id()) {
+    $connection = \Drupal::database();
+    $result = $connection->select('forcontu_cat_messages', 'f')
+      ->fields('f', ['checked', 'message'])
+      ->condition('f.nid', $nid)
+      ->execute()
+      ->fetchAssoc();
+
+    if ($result) {
+      $message_checked = $result['checked'];
+      $message = $result['message'];
+    }
+  } 
 
   $form['forcontu_cat'] = [
     '#type' => 'details',
@@ -33,6 +48,27 @@ function forcontu_cat_form_node_form_alter(&$form, FormStateInterface $form_stat
   $form['forcontu_cat']['forcontu_cat_message'] = [
     '#type' => 'textfield',
     '#title' => t('Custom message'),
-    '#default_value' => $config->get('message'),
+    '#default_value' => $message,
   ];
+
+  $form['actions']['submit']['#submit'][] =
+    'forcontu_cat_form_node_form_submit';
+}
+
+function forcontu_cat_form_node_form_submit(array &$form, FormStateInterface $form_state) {
+  $nid = $form_state->getFormObject()->getEntity()->id();
+  $message_checked = $form_state->getValue('forcontu_cat_message_check');
+  $message = $form_state->getValue('forcontu_cat_message');
+
+  $connection = \Drupal::database();
+
+  $connection->upsert('forcontu_cat_messages')
+    ->key('nid')
+    ->fields(['nid' , 'checked', 'message'])
+    ->values([
+      'nid' => $nid,
+      'checked' => $message_checked,
+      'message' => $message,
+    ])
+    ->execute();
 }
