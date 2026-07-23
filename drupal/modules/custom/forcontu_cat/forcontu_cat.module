@@ -1,0 +1,38 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for node_form.
+ */
+
+function forcontu_cat_form_node_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $config = \Drupal::config('forcontu_cat.settings');
+  $type = $form_state->getFormObject()->getEntity()->getType();
+  $allowed_types = $config->get('allowed_types');
+
+  $message_checked = 0;
+
+  $form['forcontu_cat'] = [
+    '#type' => 'details',
+    '#title' => t('Forcontu CAT'),
+    '#group' => 'advanced',
+    '#weight' => 100,
+    '#open' => FALSE,
+    '#access' =>
+      \Drupal::currentUser()->hasPermission('forcontu cat nodes')
+      && in_array($type, $allowed_types),
+  ];
+
+  $form['forcontu_cat']['forcontu_cat_message_check'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Enable message'),
+    '#default_value' => $message_checked,
+  ];
+
+  $form['forcontu_cat']['forcontu_cat_message'] = [
+    '#type' => 'textfield',
+    '#title' => t('Custom message'),
+    '#default_value' => $config->get('message'),
+  ];
+}
