@@ -4,3 +4,10 @@ forcontu_cat.settings:
   parent: system.admin_config_system
   route_name: forcontu_cat.settings
   weight: 100
+
+forcontu_cat.messages:
+  title: 'Forcontu CAT Message'
+  description: 'Forcontu CAT messages'
+  parent: system.admin_structure
+  route_name: forcontu_cat.messages
+  weight: 100
