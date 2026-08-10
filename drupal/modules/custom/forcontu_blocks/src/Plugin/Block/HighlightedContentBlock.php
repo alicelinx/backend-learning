@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Access\AccessResult;
 
 /**
  * Provides the HighlightedContent block.
@@ -126,5 +127,9 @@ class HighlightedContentBlock extends BlockBase implements ContainerFactoryPlugi
       $form_state->getValue('forcontu_blocks_block_message');
     $this->configuration['node_number'] =
       $form_state->getValue('forcontu_blocks_node_number');
+  }
+
+  protected function blockAccess(AccountInterface $account) {
+    return AccessResult::allowedIfHasPermission($account, 'access highlighted content block');
   }
 }
