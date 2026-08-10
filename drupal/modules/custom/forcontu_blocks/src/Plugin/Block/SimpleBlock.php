@@ -18,4 +18,11 @@ class SimpleBlock extends BlockBase {
       '#markup' => '<span>' . $this->t('Simple block') . '</span>'
     ];
   }
+
+  public function defaultConfiguration() {
+    return [
+      'label' => 'Custom Title',
+      'label_display' => FALSE,
+    ];
+  }
 }
