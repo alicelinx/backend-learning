@@ -3,6 +3,8 @@
 namespace Drupal\forcontu_users\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Session\AccountInterface;
 
 /**
  * Provides the User block.
@@ -36,5 +38,10 @@ class UserBlock extends BlockBase {
     ];
     
     return $build;
+  }
+
+  protected function blockAccess(AccountInterface $account) {
+    return AccessResult::allowedIfHasPermission($account, 'access user block')
+      ->cachePerUser();
   }
 }
