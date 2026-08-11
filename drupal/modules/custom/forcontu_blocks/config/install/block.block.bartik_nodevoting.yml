@@ -1,0 +1,19 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - forcontu_blocks
+  theme:
+    - bartik
+id: bartik_nodevoting
+theme: bartik
+region: sidebar_second
+weight: 0
+provider: null
+plugin: forcontu_blocks_node_voting_block
+settings:
+  id: forcontu_blocks_node_voting_block
+  label: 'Node voting'
+  provider: forcontu_blocks
+  label_display: visible
+visibility: {  }
