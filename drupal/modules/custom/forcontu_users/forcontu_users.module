@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ * Forcontu Users module file.
+ */
+
+use Drupal\user\UserInterface;
+use Drupal\Core\Session\AccountInterface;
+
+/**
+ * Implements hook_user_format_name_alter().
+ */
+function forcontu_users_user_format_name_alter(&$name, AccountInterface $account) {
+  $username = $account->getAccountName();
+
+  if (strlen($username) > 4) {
+    $asterisks = str_repeat('*', strlen($username) - 4);
+    $name = substr($username, 0, 2) . $asterisks . substr($username, -2);
+  }
+}
+
+/**
+ * Implements hook_user_login().
+ */
+function forcontu_users_user_login(UserInterface $user) {
+  $date = \Drupal::service('date.formatter')
+    ->format($user->getLastLoginTime(), 'custom', 'Y/m/d');
+
+  \Drupal::messenger()->addMessage(
+    t('Thanks for coming back, you didn\'t login since @date', ['@date' => $date])
+  );
+}

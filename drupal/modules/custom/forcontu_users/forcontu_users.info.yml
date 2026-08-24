@@ -3,3 +3,4 @@ type: module
 description: 'Custom blocks module'
 package: Forcontu
 core_version_requirement: ^10
+version: 1.0
