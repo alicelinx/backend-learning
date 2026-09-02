@@ -27,6 +27,12 @@ class UserBlock extends BlockBase {
     $date = \Drupal::service('date.formatter')
       ->format($user->getLastLoginTime(), 'custom', 'Y-m-d');
 
+    $about = \Drupal::service('user.data')
+      ->get(
+        'forcontu_users',
+        $current_user->id(),
+        'about',
+      );
     
     $build[] = [
       '#markup' =>
@@ -34,7 +40,8 @@ class UserBlock extends BlockBase {
         '<p>' . $this->t('Display name: ') . $user->getDisplayName() . '</p>' .
         '<p>' . $this->t('Email: ') . $user->getEmail() . '</p>' .
         '<p>' . $this->t('Roles: ') . implode(', ', $roles) . '</p>' .
-        '<p>' . $this->t('Last login date: ') . $date . '</p>' 
+        '<p>' . $this->t('Last login date: ') . $date . '</p>' .
+        '<p>' . $this->t('About me: ') . $about . '</p>'
     ];
     
     return $build;

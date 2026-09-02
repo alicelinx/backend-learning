@@ -7,6 +7,7 @@
 
 use Drupal\user\UserInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_user_format_name_alter().
@@ -29,5 +30,57 @@ function forcontu_users_user_login(UserInterface $user) {
 
   \Drupal::messenger()->addMessage(
     t('Thanks for coming back, you didn\'t login since @date', ['@date' => $date])
+  );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function forcontu_users_form_user_form_alter(&$form, FormStateInterface $form_state) {
+  $account = $form_state->getFormObject()->getEntity();
+  $about = \Drupal::service('user.data')
+    ->get('forcontu_users', $account->id(), 'about');
+  
+  $form['forcontu_users'] = [
+    '#type' => 'details',
+    '#title' => t('Additional options'),
+    '#open' => TRUE,
+    '#weight' => 10,
+  ];
+
+  $form['forcontu_users']['forcontu_users_about'] = [
+    '#type' => 'textarea',
+    '#title' => t('About me'),
+    '#description' => t('Maximum 100 characters.'),
+    '#default_value' => $about,
+  ];
+
+  $form['#validate'][] = 'forcontu_users_user_form_validate';
+  $form['actions']['submit']['#submit'][] = 'forcontu_users_user_form_submit';
+}
+
+/**
+ * Custom validation.
+ */
+function forcontu_users_user_form_validate(array &$form, FormStateInterface $form_state) {
+  $about = trim($form_state->getValue('forcontu_users_about'));
+  if (strlen($about) >= 100) {
+    $form_state->setErrorByName(
+      'forcontu_users_about',
+      t('The About me field cannot exceed 100 characters.')
+    );
+  }
+}
+
+/**
+ * Custom submit.
+ */
+function forcontu_users_user_form_submit(array &$form, FormStateInterface $form_state) {
+  $account = $form_state->getFormObject()->getEntity();
+  \Drupal::service('user.data')->set(
+    'forcontu_users',
+    $account->id(),
+    'about',
+    $form_state->getValue('forcontu_users_about')
   );
 }
