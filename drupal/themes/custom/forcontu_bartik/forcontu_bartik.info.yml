@@ -1,0 +1,7 @@
+name: 'Forcontu Bartik'
+type: theme
+base theme: bartik
+description: 'Subtheme of Bartik'
+core_version_requirement: ^10
+libraries:
+  - forcontu_bartik/global-styling
