@@ -59,7 +59,7 @@
         {{ page.primary_menu }}
       </div>
     </header>
-    {% if twig_debug %}
+    {% if twig_debug and show_twig_message %}
       <div class="twig-debug">
         {{ 'Twig Debug is enabled'|t }}
       </div>
