@@ -8,6 +8,7 @@
 namespace Drupal\forcontu_theming\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\node\Entity\Node;
 
 class ForcontuThemingController extends ControllerBase {
   public function render() {
@@ -42,6 +43,57 @@ class ForcontuThemingController extends ControllerBase {
           '#items' => $list,
         ],
       ],
+    ];
+
+    return $build;
+  }
+
+  public function nodes() {
+    $header = [
+      $this->t('Title'),
+      $this->t('Type'),
+      $this->t('Operations'),
+    ];
+    $rows = [];
+    $nodes = Node::loadMultiple();
+
+    foreach ($nodes as $node) {
+      $operations = [
+        '#type' => 'dropbutton',
+        '#links' => [
+          'view' => [
+            'title' => $this->t('View'),
+            'url' => $node->toUrl(),
+          ],
+          'edit' => [
+            'title' => $this->t('Edit'),
+            'url' => $node->toUrl('edit-form'),
+          ],
+          'delete' => [
+            'title' => $this->t('Delete'),
+            'url' => $node->toUrl('delete-form'),
+          ],
+        ],
+      ];
+
+      $rows[] = [
+        'title' => $node->label(),
+        'type' => $node->bundle(),
+        'operations' => [
+          'data' => $operations,
+        ],
+      ];
+    }
+
+    $build['nodes_table'] = [
+      '#type' => 'table',
+      '#header' => $header,
+      '#rows' => $rows,
+    ];
+
+    $build['recent_content'] = [
+      '#type' => 'view',
+      '#name' => 'content_recent',
     ];
 
     return $build;

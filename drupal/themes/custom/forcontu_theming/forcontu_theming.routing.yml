@@ -13,3 +13,11 @@ forcontu_theming.render:
     _title: 'Render Arrays'
   requirements:
     _permission: 'access content'
+
+forcontu_theming.nodes:
+  path: '/forcontu/theming/nodes'
+  defaults:
+    _controller: '\Drupal\forcontu_theming\Controller\ForcontuThemingController::nodes'
+    _title: 'Render Nodes'
+  requirements:
+    _permission: 'access content'

@@ -5,7 +5,13 @@ forcontu_theming.admin_forcontu_theming:
   description: 'Activities from Forcontu Theming module'
 
 forcontu_theming.render:
-  title: 'Renderable Arrays'
+  title: 'Renderable arrays'
   route_name: forcontu_theming.render
   parent: forcontu_theming.admin_forcontu_theming
   description: 'Renderable arrays'
+
+forcontu_theming.nodes:
+  title: 'Renderable elements'
+  route_name: forcontu_theming.nodes
+  parent: forcontu_theming.admin_forcontu_theming
+  description: 'Renderable elements'
