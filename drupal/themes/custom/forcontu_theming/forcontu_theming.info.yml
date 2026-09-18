@@ -1,0 +1,5 @@
+name: Forcontu Theming
+type: module
+description: 'Forcontu theming.'
+package: Forcontu
+core_version_requirement: ^10

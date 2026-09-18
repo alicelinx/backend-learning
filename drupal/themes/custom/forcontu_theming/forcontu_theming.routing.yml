@@ -1,0 +1,15 @@
+forcontu_theming.admin_forcontu_theming:
+  path: '/admin/forcontu/forcontu_theming'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Forcontu Theming Pages'
+  requirements:
+    _permission: 'access content'
+
+forcontu_theming.render:
+  path: '/forcontu/theming/render'
+  defaults:
+    _controller: '\Drupal\forcontu_theming\Controller\ForcontuThemingController::render'
+    _title: 'Render Arrays'
+  requirements:
+    _permission: 'access content'

@@ -1,0 +1,11 @@
+forcontu_theming.admin_forcontu_theming:
+  title: 'Forcontu Theming'
+  parent: forcontu_pages.admin_forcontu
+  route_name: forcontu_theming.admin_forcontu_theming
+  description: 'Activities from Forcontu Theming module'
+
+forcontu_theming.render:
+  title: 'Renderable Arrays'
+  route_name: forcontu_theming.render
+  parent: forcontu_theming.admin_forcontu_theming
+  description: 'Renderable arrays'
