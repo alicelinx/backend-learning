@@ -85,6 +85,12 @@
           <section class="section">
             <a id="main-content" tabindex="-1"></a>
             {{ page.content }}
+
+            {% for i in 1..5 %}
+            <p>{{ loripsum(500) }}</p>
+            {% endfor %}
+
+            <p>{{ loripsum(600)|space_replace }}</p>
           </section>
         </main>
         {% if page.sidebar_first %}
