@@ -52,6 +52,14 @@ class ForcontuThemingController extends ControllerBase {
       '#height' => 24,
     ];
 
+    $build['item_dimensions_element'] = [
+      '#type' => 'forcontu_theming_dimensions',
+      '#length' => 11,
+      '#width' => 7,
+      '#height' => 23,
+      '#unit' => 'mm.',
+    ];
+
     return $build;
   }
 
