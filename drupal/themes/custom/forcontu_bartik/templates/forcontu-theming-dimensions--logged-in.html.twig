@@ -1,0 +1,17 @@
+{#
+/**
+* @file
+* Theme implementation for 'forcontu_theming_dimensions' for authenticated users.
+*
+* Available variables:
+* - length
+* - width
+* - height
+* - unit (default to cm.)
+*/
+#}
+<span class="item-dimensions authenticated">
+  {% trans %}
+  Dimensions (length x width x height): {{ length }} x {{ width }} x {{ height }} {{ unit }}
+  {% endtrans %}
+</span>

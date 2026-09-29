@@ -1,0 +1,12 @@
+#container {
+  border: 1px solid #000;
+  padding: 1rem;
+}
+
+.item-dimensions {
+  color: #FF0000;
+}
+
+.item-dimensions.authenticated {
+  color: green;
+}
