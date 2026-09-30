@@ -4,7 +4,7 @@ services:
     parent: default_plugin_manager
   forcontu.courses:
     class: Drupal\forcontu_plugins\ForcontuCourses
-    arguments: ["%forcontu.courselist%"]
+    arguments: ["%forcontu.courselist%", "@current_user"]
 
 parameters:
   forcontu.courselist:
