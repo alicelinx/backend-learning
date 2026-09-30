@@ -9,3 +9,9 @@ forcontu_plugins.fipsum:
   route_name: forcontu_plugins.fipsum
   parent: forcontu_plugins.admin_forcontu_plugins
   description: 'Fipsum'
+
+forcontu_plugins.courses:
+  title: 'Courses'
+  route_name: forcontu_plugins.courses
+  parent: forcontu_plugins.admin_forcontu_plugins
+  description: 'Courses'

@@ -2,3 +2,18 @@ services:
   plugin.manager.fipsum:
     class: Drupal\forcontu_plugins\FipsumPluginManager
     parent: default_plugin_manager
+  forcontu.courses:
+    class: Drupal\forcontu_plugins\ForcontuCourses
+    arguments: ["%forcontu.courselist%"]
+
+parameters:
+  forcontu.courselist:
+    - { title: 'Expert in Drupal Site Building',
+        tutor: 'Fran Gil', duration: 4, hours: 180 }
+    - { title: 'Expert in Drupal Back-End Development',
+        tutor: 'Fran Gil', duration: 6, hours: 300 }
+    - { title: 'Expert in Drupal Front-End Development',
+        tutor: 'Fran Gil', duration: 4, hours: 180 }
+    - { title: 'Expert in Drupal',
+        tutor: 'Fran Gil', duration: 14, hours: 660 }
+    
