@@ -45,6 +45,16 @@ class ForcontuPluginsController extends ControllerBase {
       '#markup' => '<p>' . $forcontu_ipsum->generate(600) . '</p>',
     ];
 
+    $pony_ipsum = $this->fipsum->createInstance('pony_ipsum');
+
+    $build['fipsum_pony_ipsum_title'] = [
+      '#markup' => '<h2>' . $pony_ipsum->description() . '</h2>',
+    ];
+
+    $build['fipsum_pony_ipsum_text'] = [
+      '#markup' => '<p>' . $pony_ipsum->generate() . '</p>',
+    ];
+
     return $build;
   }
 }
