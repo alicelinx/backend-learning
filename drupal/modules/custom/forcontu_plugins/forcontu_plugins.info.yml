@@ -1,0 +1,5 @@
+name: Forcontu Plugins
+type: module
+description: 'Forcontu plugins.'
+package: Forcontu
+core_version_requirement: ^10

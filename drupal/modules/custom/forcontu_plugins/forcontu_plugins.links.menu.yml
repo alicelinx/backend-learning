@@ -1,0 +1,11 @@
+forcontu_plugins.admin_forcontu_plugins:
+  title: 'Forcontu Plugins'
+  parent: 'forcontu_pages.admin_forcontu'
+  route_name: forcontu_plugins.admin_forcontu_plugins
+  description: 'Activities from Forcontu Plugins module'
+
+forcontu_plugins.fipsum:
+  title: 'Fipsum'
+  route_name: forcontu_plugins.fipsum
+  parent: forcontu_plugins.admin_forcontu_plugins
+  description: 'Fipsum'

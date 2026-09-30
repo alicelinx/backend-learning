@@ -1,0 +1,15 @@
+forcontu_plugins.admin_forcontu_plugins:
+  path: '/admin/forcontu/forcontu_plugins'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Forcontu Plugins Pages'
+  requirements:
+    _permission: 'access content'
+
+forcontu_plugins.fipsum:
+  path: '/forcontu/plugins/fipsum'
+  defaults:
+    _controller: '\Drupal\forcontu_plugins\Controller\ForcontuPluginsController::fipsum'
+    _title: 'Fipsum Test Page'
+  requirements:
+    _permission: 'access content'
