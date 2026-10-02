@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Forcontu Entities module file.
+ */
+
+/**
+ * Implements hook_ENTITY_TYPE_load().
+ */
+function forcontu_entities_node_load(array $nodes) {
+  foreach ($nodes as $node) {
+    if ($node->bundle() === 'article') {
+      $node->setTitle(t('Article: @title', [
+        '@title' => $node->label(),
+      ]));
+    }
+  }
+}
