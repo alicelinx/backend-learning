@@ -1,0 +1,7 @@
+# Section menu items definition
+entity.forcontu_entities_section.collection:
+  title: 'Section'
+  route_name: entity.forcontu_entities_section.collection
+  description: 'List Section (bundles)'
+  parent: system.admin_structure
+  weight: 99
