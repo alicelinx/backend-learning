@@ -56,3 +56,26 @@ function forcontu_entities_user_predelete(EntityInterface $entity) {
   
   $node_storage->delete($nodes);
 }
+
+/**
+ * Implements MODULE_preprocess_HOOK(&$variables).
+ */
+function forcontu_entities_preprocess_page_title(&$variables) {
+  $current_path = \Drupal::service('path_alias.manager')->getAliasByPath(
+    \Drupal::service('path.current')->getPath()
+  );
+  
+  $sections = \Drupal::entityTypeManager()
+    ->getStorage('forcontu_entities_section')
+    ->loadMultiple();
+  
+  foreach ($sections as $section) {
+    $pattern = $section->getUrlPattern();
+    
+    if (\Drupal::service('path.matcher')->matchPath($current_path, $pattern)) {
+      $variables['section_id'] = $section->id();
+      $variables['section_color'] = $section->getColor();
+      break;
+    }
+  }
+}
