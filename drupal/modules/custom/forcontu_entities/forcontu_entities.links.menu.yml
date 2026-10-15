@@ -5,3 +5,17 @@ entity.forcontu_entities_section.collection:
   description: 'List Section (bundles)'
   parent: system.admin_structure
   weight: 99
+
+entity.forcontu_entities_message_type.collection:
+  title: 'Message type'
+  route_name: entity.forcontu_entities_message_type.collection
+  description: 'List Message Type(bundles)'
+  parent: system.admin_structure
+  weight: 100
+
+forcontu_entities_message.collection:
+  title: 'Messages'
+  description: 'Message list'
+  route_name: entity.forcontu_entities_message.collection
+  parent: system.admin_content
+  weight: 99

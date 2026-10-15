@@ -1,0 +1,5 @@
+entity.forcontu_entities_message.collection:
+  route_name: entity.forcontu_entities_message.collection
+  title: 'Messages'
+  base_route: system.admin_content
+  weight: 10
